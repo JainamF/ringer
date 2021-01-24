@@ -28,9 +28,9 @@ dependencies:
   firebase_core:
   provider:
   flutter_screenutil:
-  firebase_messaging:
+  firebase_messaging: ^7.0.3
   firebase_storage: ^4.0.1
-
+  flutter_local_notifications:
   cached_network_image:
   intl:
   font_awesome_flutter:

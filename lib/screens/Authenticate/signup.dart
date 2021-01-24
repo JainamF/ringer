@@ -7,7 +7,6 @@ import 'package:ringer/services/auth.dart';
 import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
 // import 'package:artist/screens/main/main_page.dart';
-import 'package:ringer/screens/Authenticate/artistsignup.dart';
 
 class SignUp extends StatefulWidget {
   @override
