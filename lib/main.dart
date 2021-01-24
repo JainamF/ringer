@@ -1,69 +1,62 @@
+import 'package:ringer/provider/user.dart';
+import 'package:ringer/screens/Authenticate/login.dart';
+import 'package:ringer/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return StreamProvider<CUser>.value(
+      value: AuthService().user,
+      child: MaterialApp(
+        home: Login(),
+        // home: AuthService().handleAuth(),
+        debugShowCheckedModeBanner: false,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp();
+//   runApp(MultiProvider(
+//     providers: [
+//       ChangeNotifierProvider.value(value: UserProvider.initialize()),
+//       ChangeNotifierProvider.value(value: AppProvider()),
+//     ],
+//     child: MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       theme: ThemeData(primaryColor: Colors.white),
+//       home: ScreensController(),
+//     ),
+//   ));
+// }
 
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  static const platform = const MethodChannel('samples.flutter.dev/battery');
-  String _batteryLevel = 'Unknown battery level.';
-  Future<void> _getBatteryLevel() async {
-    String batteryLevel;
-    try {
-      final int result = await platform.invokeMethod('getBatteryLevel');
-      batteryLevel = 'Battery level at $result %';
-    } on PlatformException catch (e) {
-      batteryLevel = "Failed to get battery level: '${e.message}'.";
-    }
-
-    setState(() {
-      _batteryLevel = batteryLevel;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'If your notification bar is not visible😂😂😂',
-            ),
-            Text('$_batteryLevel'),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _getBatteryLevel,
-        child: Icon(Icons.battery_unknown),
-      ),
-    );
-  }
-}
+// class ScreensController extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     final user = Provider.of<UserProvider>(context);
+//     switch (user.status) {
+//       case Status.Uninitialized:
+//         return Splash();
+//       case Status.Unauthenticated:
+//         return Login();
+//       case Status.Authenticating:
+//         return Login();
+//       case Status.Authenticated:
+//         return MainPage();
+//       default:
+//         return Login();
+//     }
+//   }
+// }
