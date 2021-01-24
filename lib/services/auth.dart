@@ -56,16 +56,10 @@ class AuthService {
     User user = result.user;
     try {
       await user.sendEmailVerification();
-      await FirebaseFirestore.instance
-          .collection("NormalUser")
-          .doc(user.uid)
-          .set({
+      await FirebaseFirestore.instance.collection("User").doc(user.uid).set({
         'name': username,
-        'phone': "",
+        'useruid': user.uid,
         'email': email,
-        'bio': "",
-        'img':
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTypQUgssPXZrWN3Rgt4ohOfUq0qgfIR0dLYA&usqp=CAU",
       });
       // https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTypQUgssPXZrWN3Rgt4ohOfUq0qgfIR0dLYA&usqp=CAU
       return user.uid;
@@ -76,42 +70,42 @@ class AuthService {
     }
   }
 
-  Future artistregisterWithEmailAndPassword(
-      String username, String email, String password) async {
-    UserCredential result = await _auth.createUserWithEmailAndPassword(
-        email: email, password: password);
-    User user = result.user;
-    try {
-      await user.sendEmailVerification();
+  // Future artistregisterWithEmailAndPassword(
+  //     String username, String email, String password) async {
+  //   UserCredential result = await _auth.createUserWithEmailAndPassword(
+  //       email: email, password: password);
+  //   User user = result.user;
+  //   try {
+  //     await user.sendEmailVerification();
 
-      // await FirebaseFirestore.instance
-      //     .collection("ArtistUser")
-      //     .doc(user.uid)
-      //     .set({
-      //   'email': email,
-      //   'approved': false,
-      // });
+  //     // await FirebaseFirestore.instance
+  //     //     .collection("ArtistUser")
+  //     //     .doc(user.uid)
+  //     //     .set({
+  //     //   'email': email,
+  //     //   'approved': false,
+  //     // });
 
-      await FirebaseFirestore.instance
-          .collection("ArtistUser")
-          .doc(user.uid)
-          .set({
-        'approved': false,
-        'name': username,
-        'phone': "",
-        'email': email,
-        'bio': "",
-        'img':
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTypQUgssPXZrWN3Rgt4ohOfUq0qgfIR0dLYA&usqp=CAU",
-      });
-      // https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTypQUgssPXZrWN3Rgt4ohOfUq0qgfIR0dLYA&usqp=CAU
-      return user.uid;
-    } catch (e) {
-      print("An error occured while trying to send email verification");
-      print(e.message);
-      return null;
-    }
-  }
+  //     await FirebaseFirestore.instance
+  //         .collection("ArtistUser")
+  //         .doc(user.uid)
+  //         .set({
+  //       'approved': false,
+  //       'name': username,
+  //       'phone': "",
+  //       'email': email,
+  //       'bio': "",
+  //       'img':
+  //           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTypQUgssPXZrWN3Rgt4ohOfUq0qgfIR0dLYA&usqp=CAU",
+  //     });
+  //     // https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTypQUgssPXZrWN3Rgt4ohOfUq0qgfIR0dLYA&usqp=CAU
+  //     return user.uid;
+  //   } catch (e) {
+  //     print("An error occured while trying to send email verification");
+  //     print(e.message);
+  //     return null;
+  //   }
+  // }
 
   // Future<void> resendEmailVerification() async {
   //   final User user = _auth.currentUser;
