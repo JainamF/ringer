@@ -28,7 +28,7 @@ dependencies:
   firebase_core:
   provider:
   flutter_screenutil:
-
+  firebase_messaging:
   firebase_storage: ^4.0.1
 
   cached_network_image:

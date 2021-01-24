@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "111575574780-4jidksg1tk2aunoqgch28mmos4sv8krh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ringer",
+            "certificate_hash": "b6ec9092c7edc429b6f2061e599655aacd7eb164"
+          }
+        },
+        {
           "client_id": "111575574780-9gfetootv27fjfe52gfoa0sbd8u8evas.apps.googleusercontent.com",
           "client_type": 3
         }
