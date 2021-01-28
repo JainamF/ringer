@@ -1,17 +1,18 @@
-import 'package:ringer/provider/user.dart';
-import 'package:ringer/screens/Authenticate/login.dart';
-import 'package:ringer/services/auth.dart';
+import 'package:ringer/screens/Authenticate/signup.dart';
+import 'package:ringer/screens/main/main_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  var email = preferences.getString('email');
+  runApp(MaterialApp(home: email == null ? SignUp() : MainPage()));
 }
 
-class MyApp extends StatelessWidget {
+/* class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-}
+} */
 
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized();

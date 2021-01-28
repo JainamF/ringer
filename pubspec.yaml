@@ -27,6 +27,7 @@ dependencies:
   cloud_firestore:
   firebase_core:
   provider:
+  shared_preferences: ^0.5.12+4
   flutter_screenutil:
   firebase_messaging: ^7.0.3
   firebase_storage: ^4.0.1

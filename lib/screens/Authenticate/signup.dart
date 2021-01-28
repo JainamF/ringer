@@ -2,9 +2,11 @@
 import 'package:ringer/helpers/style.dart';
 // import 'package:artist/provider/user.dart';
 import 'package:ringer/screens/Authenticate/login.dart';
+import 'package:ringer/screens/main/main_page.dart';
 import 'package:ringer/services/auth.dart';
 // import 'package:artist/widgets/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:provider/provider.dart';
 // import 'package:artist/screens/main/main_page.dart';
 
@@ -168,11 +170,19 @@ class _SignUpState extends State<SignUp> {
                               // _name.text,
                               onPressed: () async {
                                 if (_formKey.currentState.validate()) {
-                                  dynamic result =
-                                      await _auth.registerWithEmailAndPassword(
-                                          _name.text,
-                                          _email.text,
-                                          _password.text);
+                                  dynamic result = await _auth
+                                      .registerWithEmailAndPassword(_name.text,
+                                          _email.text, _password.text)
+                                      .then((value) async {
+                                    SharedPreferences preferences =
+                                        await SharedPreferences.getInstance();
+                                    preferences.setString('email', _email.text);
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MainPage()),
+                                        (Route<dynamic> route) => false);
+                                  });
                                   if (result == null) {
                                     _key.currentState.showSnackBar(SnackBar(
                                         content: Text("Sign up failed")));

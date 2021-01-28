@@ -9,6 +9,7 @@ import 'package:ringer/services/auth.dart';
 import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -157,9 +158,20 @@ class _LoginState extends State<Login> {
                               child: MaterialButton(
                                 onPressed: () async {
                                   if (_formKey.currentState.validate()) {
-                                    dynamic result =
-                                        await _auth.signInWithEmailAndPassword(
-                                            _email.text, _password.text);
+                                    dynamic result = await _auth
+                                        .signInWithEmailAndPassword(
+                                            _email.text, _password.text)
+                                        .then((value) async {
+                                      SharedPreferences preferences =
+                                          await SharedPreferences.getInstance();
+                                      preferences.setString(
+                                          'email', _email.text);
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => MainPage()),
+                                          (Route<dynamic> route) => false);
+                                    });
                                     if (result == null) {
                                       _key.currentState.showSnackBar(SnackBar(
                                           content: Text(
@@ -181,10 +193,8 @@ class _LoginState extends State<Login> {
                                         Navigator.of(context)
                                             .pushAndRemoveUntil(
                                                 MaterialPageRoute(
-                                                    builder:
-                                                        (context) =>
-                                                            MainPage(result
-                                                                .toString())),
+                                                    builder: (context) =>
+                                                        MainPage()),
                                                 (Route<dynamic> route) =>
                                                     false);
                                       }

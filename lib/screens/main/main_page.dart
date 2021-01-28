@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'dart:io';
 
 class MainPage extends StatefulWidget {
-  final String docid;
-  MainPage(this.docid);
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -31,6 +31,15 @@ class _MainPageState extends State<MainPage> {
     User user = auth.currentUser;
     _uid = user.uid;
     getEmail();
+    startServiceInPlatform();
+  }
+
+  void startServiceInPlatform() async {
+    if (Platform.isAndroid) {
+      var methodChannel = MethodChannel("com.example.ringer");
+      String data = await methodChannel.invokeMethod("startService");
+      debugPrint(data);
+    }
   }
 
   Future<void> getEmail() async {
